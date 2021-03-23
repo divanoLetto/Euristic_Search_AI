@@ -3,7 +3,7 @@
 ## Assigment: 
   Solve a state-search problem defining an appropriate heuristic metrics and implementing the A* search algorithm.
   Finally, compare the results of performacy obtained with blind and informed search.
-##Problem:
+## Problem:
   The problem is defined as follow:
     The assembly of a certain product requires the performance of N tasks {c1,. . . , cn}, each of which requires a (discrete) time ti,i = 1,...,n to be completed. 
     Some tasks require certain prerequisites: the task ci requires that the tasks Pi⊂{c1,...,cn} to be completed before starting (Pi is the empty set if there has no prerequisites).
