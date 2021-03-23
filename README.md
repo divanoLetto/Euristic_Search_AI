@@ -1,7 +1,7 @@
 # Heuristic_Search_AI
 
 ## Assigment: 
-  Solve a state-search problem processing and defining a specific heuristic metrics and implementing the A* search algorithm.
+  Solve a **state-search problem** processing and **defining a specific heuristic metrics** and implementing the A* search algorithm.
   Then compare the results and the performacy obtained with blind and informed search.
 ## Problem:
   The problem is defined as follow:  
