@@ -1,8 +1,8 @@
 # Heuristic_Search_AI
 
 ## Assigment: 
-  Solve a state-search problem defining an appropriate heuristic metrics and implementing the A* search algorithm.
-  Finally, compare the results of performacy obtained with blind and informed search.
+  Solve a state-search problem processing and defining a specific heuristic metrics and implementing the A* search algorithm.
+  Then compare the results and the performacy obtained with blind and informed search.
 ## Problem:
   The problem is defined as follow:  
     "The assembly of a certain product requires the performance of N tasks {c1,. . . , cn}, each of which requires a (discrete) time ti,i = 1,...,n to be completed.   
