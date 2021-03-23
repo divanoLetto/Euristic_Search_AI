@@ -12,4 +12,4 @@
 ## Execution 
 Run main.py
 ## Results
-We created a specific heuristic function h composed of three functions h1, h2 and h3 for each problem area, which allowed us to demonstrate the greater efficiency of the informed research based on heuristics compared to the blind research. To see more details read Euristic_Search_AI_document.pdf.
+We created a specific **heuristic function h** composed of three functions **h1**, **h2** and **h3** for each problem area, which allowed us to demonstrate the greater efficiency of the informed research based on heuristics compared to the blind research. To see more details read Euristic_Search_AI_document.pdf.
