@@ -9,3 +9,7 @@
     Some tasks require certain prerequisites: the task ci requires that the tasks Pi⊂{c1,...,cn} to be completed before starting (Pi is the empty set if there has no prerequisites).  
     There are M employees who can be assigned tasks and every employee can just carry out a single task at a certain point in time.   
     Assuming it is necessary to assemble K identical copies of the product,  is required to find the best time sequence of assigningment of the products to the employees in order to minimize the overall time need to complete all assemblies." 
+## Execution 
+Run main.py
+## Results
+We created a specific heuristic function h composed of three functions h1, h2 and h3 for each problem area, which allowed us to demonstrate the greater efficiency of the informed research based on heuristics compared to the blind research. To see more details read Euristic_Search_AI_document.pdf.
