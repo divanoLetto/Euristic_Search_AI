@@ -1,0 +1,214 @@
+\documentclass[]{article}
+
+\usepackage[table]{xcolor}
+\setlength{\arrayrulewidth}{1mm}
+\setlength{\tabcolsep}{18pt}
+\renewcommand{\arraystretch}{1.5}
+
+\title{Ricerca Euristica progetto esame di Intelligenza Artificiale}
+\date{2018-2019}
+\author{Mandelli Lorenzo}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+	\noindent \'E stato realizzato un problema di ricerca di stato elaborando e definendo una specifica metrica euristica e implementando l'algoritmo di ricerca A*. Infine sono stati confrontati i risultati della performance ottenuti con la ricerca cieca e la ricerca informata.
+\end{abstract}
+
+\section{Assegnamento: assemblaggio di prodotti}
+	L’assemblaggio di un certo prodotto richiede lo svolgimento di \textbf{N} compiti \{c1,...,cn\}, ognuno dei quali richiede un tempo (discreto) ti,i = 1,..., n per essere completato. 
+	Alcuni compiti richiedono certi prerequisiti, ovvero il compito ci richiede il completamento dei compiti Pi $\subset$\{c1,...,cn\}  prima di  poter iniziare (Pi è l’insieme vuoto se non ha prerequisiti).
+	Sono disponibili \textbf{M} impiegati ai quali si possono assegnare i compiti e ogni impiegato può solo svolgere un compito ad un determinato istante di tempo. 
+	Supponendo di dover assemblare \textbf{K} copie identiche del prodotto, va trovata la sequenza temporale di assegnamento dei
+	compiti ai dipendenti in modo da minimizzare il tempo complessivo per completare tutti gli assemblaggi.
+	Si scriva un programma (in un linguaggio di programmazione a scelta) basato su tecniche di ricerca per risolvere il problema, definendo un’euristica da utilizzare con A*.
+
+\section{Implementazione}
+
+	Al fine di eseguire l’elaborato assegnato sono state usate le seguenti classi:
+	\begin{itemize}
+		\item{\textbf{Compito}}: classe che rappresenta i singoli task dei Prodotti da eseguire. A ogni
+			compito è assegnato un tempo di esecuzione, un identificatore e una lista di
+			riferimenti ad altri compiti dello stesso Prodotto che rappresentano i suoi requisiti.
+			Un compito non può essere assegnato a un Impiegato fino a che tutti i suoi requisiti
+			non sono stati completati.
+		\item{\textbf{Prodotto}}: classe che racchiude un insieme di Compiti. Essi si dividono in:
+			disponibili (avaibleCompiti), non disponibili (unavaibleCompiti), ultimati
+			(doneCompiti) e in lavorazione (compitiWorkingOn). Sono disponibili inoltre i
+			metodi di creazione di copia di un Prodotto e un metodo per la generazione di un
+			Prodotto casuale, quest’ultimo metodo produce i requisiti tra compiti in base a una
+			probabilità impostabile dall’utente.
+		\item{\textbf{State}}: classe che rappresenta lo stato del problema a un certo istante di tempo. Essa
+			è caratterizzata da un attributo (numberFreeEmployers) che indica il numero di
+			impiegati liberi e da due liste (doneProductList, undoneProductList) di oggetti
+			Prodotto che rappresentano i quali Prodotti sono stati ultimati e quali non.
+		\item{\textbf{Node}}: classe che implementa a struttura dei nodi utilizzata dall’algoritmo preso in
+			esame, a\_star\_search, per navigare nell’albero di ricerca. Tiene traccia dello stato
+			(state), della profondità (depth), dell’azione utilizzata per giungere a se stesso
+			(action), del costo necessario (path\_cost) e del nodo “padre” da cui deriva (parent).
+			Fornisce inoltre i metodi per generare da un Nodo tutti i possibili Nodi “figli”.
+		\item{\textbf{Problem}}: classe che definisce la struttura astratta per la classe RealProblem.
+		\item{\textbf{RealProblem}}: classe che rappresenta il problema di assemblaggio di prodotti preso
+			in esame. E’ caratterizzata da un riferimento allo stato iniziale (initial) e un
+			riferimento allo stato goal (goal) che crea a partire da quello iniziale fornito nel
+			costruttore. Implementa i metodi:
+			\begin{itemize}
+				\item{action}: che ritorna la lista delle possiili azioni effettuabili in un certo Stato.
+				\item{result}: che ritorna lo stato risultante dalla scelta di una particolare azione in un
+					particolare stato.
+				\item{goal\_test}: che analizza uno Stato e ritorna True se esso coincude con lo stato goal.
+				\item\textbf{{h}}: che, data uno Stato, analizza le tre euristiche h1, h2 e h3 per fare una stima della
+					“distanza” che lo separa dallo Stato goal.
+				\item{\textbf{h1}}: ritorna il massimo tempo di esecuzione presente tra tutti i compiti (disponibili,
+					non disponibili e in lavorazione) di tutti i prodotti non ultimati.
+				\item{\textbf{h2}}: ritorna il tempo massimo necessario a ultimare un compito attualmente non
+					disponibile considerando la somma maggiore delle catene dei suoi requisiti.
+				\item{\textbf{h3}}: ritorna la stima del tempo necessario a ultimare tutti i compiti considerando la somma dei tempi di ogni compiti diviso il numero totale di impiegati.
+			\end{itemize}
+		
+		\section{Risultati}	
+			Dai dati empirici, ottenuti utilizzando la probablità di formazione di un requisito di default (10\%), si ottengono le seguenti tabelle:
+			
+			\subsection{Algoritmo A\_star\_search}:
+			
+				\begin{table}
+					\centering
+					{\rowcolors{2}{green!80!yellow!50}{green!70!yellow!40}
+						\begin{tabular}{ |p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|  }
+							\hline
+							M& K & N & N*M & Media tempi(s)\\
+							\hline
+							1 & 1  & 10 & 10 & 0.039  \\
+							5 & 1  & 10 & 10 & 0.016  \\
+							10 & 1  & 10 & 10 & 0.015  \\
+							\hline
+						\end{tabular}
+					}
+				\caption{\textbf{(A)}}
+				\end{table}
+				
+				\begin{table}
+					\centering
+					{\rowcolors{2}{green!80!yellow!50}{green!70!yellow!40}
+						\begin{tabular}{ |p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|  }
+							\hline
+							M& K & N & N*M & Media tempi (s)\\
+							\hline
+							1 & 2  & 10 & 20 & 0.273 \\
+							10 & 2  & 10 & 20 &  0.024 \\
+							20 & 2  & 10 & 20 & 0.026  \\
+							\hline
+						\end{tabular}
+					}
+				\caption{\textbf{(B)}}
+			\end{table}
+				
+				\begin{table}
+					\centering
+				{\rowcolors{2}{green!80!yellow!50}{green!70!yellow!40}
+					\begin{tabular}{ |p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|  }
+						\hline
+						M& K & N & N*M & Media tempi(s)\\
+						\hline
+						1 & 3  & 10 & 30 & 0.436 \\
+						15 & 3  & 10 & 30 &  0.080 \\
+						30 & 3  & 10 & 30 & 0.069  \\
+						\hline
+					\end{tabular}
+				}
+			\caption{\textbf{(C)}}
+		\end{table}
+			
+			\begin{table}
+				\centering
+				{\rowcolors{2}{green!80!yellow!50}{green!70!yellow!40}
+					\begin{tabular}{ |p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|  }
+						\hline
+						M& K & N & N*M & Media tempi(s)\\
+						\hline
+						1 & 4  & 10 & 40 & 0 1,031 \\
+						20 & 4  & 10 & 40 &  0.202 \\
+						40 & 4  & 10 & 40 & 0.177  \\
+						\hline
+					\end{tabular}
+				}
+			\caption{\textbf{(D)}}
+		\end{table}
+			
+			\begin{table}
+				\centering
+				{\rowcolors{2}{green!80!yellow!50}{green!70!yellow!40}
+					\begin{tabular}{ |p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|  }
+						\hline
+						M& K & N & N*M & Media tempi(s)\\
+						\hline
+						1 & 5  & 10 & 50 & 2,101 \\
+						25 & 5  & 10 & 50 &  0.326 \\
+						50 & 5  & 10 & 50 & 0.315  \\
+						\hline
+					\end{tabular}
+				}
+			\caption{\textbf{(E)}}
+		\end{table}
+		
+
+			\subsection{Algoritmo Best\_first\_graph\_search}:
+			
+			\begin{table}
+				\centering
+				{\rowcolors{2}{green!80!yellow!50}{green!70!yellow!40}
+					\begin{tabular}{ |p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|  }
+						\hline
+						M& K & N & N*M & Media tempi(s)\\
+						\hline
+						1 & 1  & 10 & 10 & 15,809 \\
+						5 & 1  & 10 & 10 &  1.016 \\
+						10 & 1  & 10 & 10 & 0.006  \\
+						\hline
+					\end{tabular}
+				}
+			\caption{\textbf{(F)}}
+		\end{table}
+			
+			\begin{table}
+				\centering
+				{\rowcolors{2}{green!80!yellow!50}{green!70!yellow!40}
+					\begin{tabular}{ |p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|  }
+						\hline
+						M& K & N & N*M & Media tempi(s)\\
+						\hline
+						1 & 1  & 15 & 15 & 0 26,101 \\
+						7 & 1  & 15 & 15 &  0.028 \\
+						15 & 1  & 15 & 15 & 0.021  \\
+						\hline
+					\end{tabular}
+				}
+			\caption{\textbf{(G)}}
+		\end{table}	
+			
+			\subsection{Conclusioni}
+			
+				Dai dati si evince la superiorità nel tempo di secuzione di \textit{a\_star\_search} rispetto a 
+				\textit{best\_first\_graph\_search} a parità di input . Le euristiche hanno quindi permesso di 
+				ottenere migliori performance rispetto all’utilizzo del solo path\_cost come criterio di 
+				esplorazione dell’albero.\\
+				Si nota inoltre che all’aumentare del numero di impiegati diminuisce il tempo 
+				necessario al completamento del problema. \\
+				Gli esperimenti indicano che il tempo di esecuzione può notevolmente variare (anche
+				di un fattore 100) in base all’istanza di input presente. Essendo i vincoli tra compiti 
+				generati randomicamente si è ottenuto che in caso di maggior numero di vincoli 
+				presenti la difficoltà del problema decresce, mentre aumenta con la maggiore 
+				presenza di compiti privi di requisiti. Ciò è dovuto al diminuire di possibili strade 
+				percorribili dall’algoritmo a ogni istante di tempo in caso di maggior numero di 
+				vincoli.
+				
+	\end{itemize}
+	
+	
+	
+	
+	
+
+\end{document}
